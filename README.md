@@ -28,7 +28,9 @@ Results were averaged over multiple models (in total around 56 thousand) trained
 
 The data sets had different shapes, because computational times varies with data set shape, ranging from 10k to 10m rows and from 10 to 10k columns, excluding combinations that exceeded 100m cells (because they have proven too time- and/or memory to allow for stable model training in case of xgboost (OOM conditions for VRAM led in xgboost to frequent crashes of the entire python kernel).
 
-To ensure comparability across algos the models – of binary classification - had default hyperparmeters (including a fast learning rate of 0.1) and 1000 boosting rounds (without early stopping).
+To ensure comparability across algos all models – binary classifiers - had default hyperparmeters (including a fast learning rate of 0.1) except for:
+- max_bin=63 (reduced to improve GPU training speeds, as per lightgbm recommendations - see [GPU Tuning Guide](https://lightgbm.readthedocs.io/en/latest/GPU-Performance.html)), 
+- 1000 boosting rounds, without early stopping (increased to ensure meaningful training times, reducing impact of warm-up periods).
 
 Comparability of model forecasting acurracy (across different data sets and algos) was guaranteed by the use of randomly simulated data, because as a result of this randomness all models had roughly the same accuracy (AUC of around 50%).
 
