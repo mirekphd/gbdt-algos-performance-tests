@@ -1,10 +1,10 @@
 ## Performance comparison of competing GBDT algorithms
 
-I compared computational efficiency of the latest versions of GBDT algos - lightgbm and xgboost – in GPU "alone" (i.e. with a single CPU thread) and in CPU alone (from 1 to 64 threads).
+I compared computational efficiency of the latest versions of GBDT algos - lightgbm and xgboost – in GPU "alone" (i.e. with a single CPU thread) and in CPU alone (using from 1 to 64 threads).
 
 ### Conclusions
 
-- lightgbm has an excellent CPU implementation, while xgboost - an excellent GPU one, but we one should rather avoid using lightgbm in GPU or xgboosta in CPU alone,
+- lightgbm has an excellent CPU implementation, while xgboost - an excellent GPU one, but we one should rather avoid using lightgbm in GPU or xgboost in CPU alone,
 
 - in CPU alone lightgbm is substantially faster than xgboost, in fact comparable to (or only slightly slower than) xgboost in the GPU,
 
@@ -14,9 +14,9 @@ I compared computational efficiency of the latest versions of GBDT algos - light
 
 - using GPU in case of lightgbm does not currently make much sense, because its GPU performance is indistinguishable from CPU performance,
 
-- on the other hand, using GPU in case of xgboosta is essential, because it is substantially slower in the CPU than lightgbm and scales poorly with more threads (in fact the value added from increasing the number of threads above 16-tu is negative),
+- on the other hand, using GPU in case of xgboost is essential, because it is substantially slower in the CPU than lightgbm and scales poorly with more threads (in fact the value added from increasing the number of threads above 16-tu is negative),
 
-- the optimal number of CPU threads for xgboosta is also 8-16, but one should avoid using this algo in the CPU (in GPU it is significantly faster - one of the largest performance benefits observed in this study),
+- the optimal number of CPU threads for xgboost is also 8-16, but one should avoid using this algo in the CPU (in GPU it is significantly faster - one of the largest performance benefits observed in this study),
 
 - xgboost in the GPU is the fastest option for this algo (except for very small data sets, because such data transfers to the GPU last too long in relation to GPU computations, i.e. model treaining time), but one should bear in mind the rather restrictive memory limits (e.g. 16 GiB of VRAM in V100), which restrict GPU use,
 
