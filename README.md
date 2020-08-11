@@ -4,23 +4,23 @@ I compared computational efficiency of the latest versions of GBDT algos - light
 
 ### Conclusions
 
-- lightgbm has an excellent CPU implementation, while xgboost - an excellent GPU one, but we one should rather avoid using lightgbm in GPU or xgboost in CPU alone,
+- lightgbm has an excellent CPU implementation, while xgboost - an excellent GPU one, but one should rather avoid using lightgbm in GPU or xgboost in CPU alone,
 
 - in CPU alone lightgbm is substantially faster than xgboost, in fact comparable to (or only slightly slower than) xgboost in the GPU,
 
-- lightgbm in the CPU alone with 16 threads limit is the optimal configuration for the most frequently encountered tabular datasetets,
+- lightgbm in the CPU alone with 16 threads limit is the optimal configuration for the most frequently encountered tabular data sets,
 
 - lightgbm above 16 CPU threads stops to scale well (so it is better to start a second model training process with the same optimal number of threads),
 
 - using GPU in case of lightgbm currently does not improve performance if one has access to a CPU with at least 8 threads, which would on its own provide better performance regardless of data shape (note that combining GPU with multi-threaded CPU computations will obscure this issue),
 
-- on the other hand, using GPU in case of xgboost is essential, because it is substantially slower in the CPU than lightgbm and scales poorly with more threads (in fact the value added from increasing the number of threads above 16-tu is negative),
+- using GPU in case of xgboost is essential, because it is substantially slower in the CPU than lightgbm and scales poorly with more threads (in fact the value added from increasing the number of threads above 16 is negative),
 
 - the optimal number of CPU threads for xgboost is also 8-16, but one should avoid using this algo in the CPU (in GPU it is significantly faster - one of the largest performance benefits observed in this study),
 
-- xgboost in the GPU is the fastest option for this algo (except for very small data sets, because such data transfers to the GPU last too long in relation to GPU computations, i.e. model treaining time), but one should bear in mind the rather restrictive memory limits (e.g. 16 GiB of VRAM in V100), which restrict GPU use,
+- GPU version of xgboost is the fastest option for this algo (except for very small data sets, because small data transfers to the GPU take too long in relation to GPU computations), but one should bear in mind rather restrictive memory limits (e.g. 16 GiB of VRAM in case of V100 or 11 GiB for 1080Ti), which restrict GPU use,
 
-- the 16 GiB of video memory available in Tesla V100 allows for stable model training in data sets not exceeding 100m cells (e.g. 1m rows by 100 cols),
+- the 16 GiB of video memory available in Tesla V100 GPUs allows for stable model training in data sets not exceeding 100m cells (e.g. 1m rows by 100 cols),
 
 ### Methodology
 
