@@ -12,7 +12,7 @@ I compared computational efficiency of the latest versions of GBDT algos - light
 
 - lightgbm above 16 CPU threads stops to scale well (so it is better to start a second model training process with the same optimal number of threads),
 
-- using GPU in case of lightgbm does not currently make much sense, because its GPU performance is indistinguishable from CPU performance,
+- using GPU in case of lightgbm currently does not improve performance if one has access to a CPU with at least 8 threads, which would on its own provide better performance regardless of data shape (note that combining GPU with multi-threaded CPU computations will obscure this issue),
 
 - on the other hand, using GPU in case of xgboost is essential, because it is substantially slower in the CPU than lightgbm and scales poorly with more threads (in fact the value added from increasing the number of threads above 16-tu is negative),
 
