@@ -2,7 +2,7 @@
 Each of the available Intel CPUs (Intel(R) Xeon(R) Platinum 8176 CPU @ 2.10GHz) had 28 threads each and the available GPU was Tesla V100 with 16 GiB of VRAM.
 
 ### Software
-Tests were conducted in a custom GPU-enabled docker container with Ubuntu 20.04, python 3.8, and with CUDA 10.1, available for download here:
+Tests were conducted in a custom GPU-enabled docker container with Ubuntu 18.04 (not 20.04 due to compatibility with NVIDIA libraries), python 3.8, and CUDA 10.1, available for download here:
 
 `docker pull mirekphd/ml-gpu-py38-cuda101-cust:20200808`
 
