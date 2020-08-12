@@ -1,10 +1,10 @@
 ## Performance comparison of competing GBDT algorithms
 
-I compared computational efficiency of the latest versions of GBDT algos - lightgbm and xgboost – in GPU "alone" (i.e. with a single CPU thread) and in CPU alone (using from 1 to 64 threads).
+This repo presents data and reports from my study of the computational efficiency of two most widely used GBDT algorithms: lightgbm and xgboost – in GPU "alone" (i.e. with a single CPU thread) and in CPU alone (using 1 to 64 CPU threads).
 
 ### Conclusions
 
-- lightgbm has an excellent CPU implementation, while xgboost - an excellent GPU one, but one should rather avoid using lightgbm in GPU or xgboost in CPU alone,
+- lightgbm has an excellent CPU implementation, while xgboost - an excellent GPU one, but one should rather avoid using lightgbm in GPU or xgboost in CPU alone (if an alternative device - respectively a multi-threaded CPU or a modern GPU - is also available),
 
 - in CPU alone lightgbm is substantially faster than xgboost, in fact comparable to (or only slightly slower than) xgboost in the GPU,
 
@@ -20,7 +20,7 @@ I compared computational efficiency of the latest versions of GBDT algos - light
 
 - the optimal number of CPU threads for xgboost is also 8-16, but one should avoid using this algo in the CPU (in GPU it is significantly faster - one of the largest performance benefits observed in this study),
 
-- GPU version of xgboost is the fastest option for this algo (except for very small data sets, because small data transfers to the GPU take too long in relation to GPU computations), but one should bear in mind rather restrictive memory limits (e.g. 16 GiB of VRAM in case of V100 or 11 GiB for 1080Ti), which restrict GPU use,
+- GPU version of xgboost is the fastest option for this algo (except for very small data sets, because small data transfers to the GPU take too long in relation to GPU computations), but one should bear in mind rather restrictive memory limits (e.g. 16 GiB of VRAM in case of V100 or 11 GiB for 1080Ti), which can limit GPU use to smaller datasets,
 
 - the 16 GiB of video memory available in Tesla V100 GPUs allows for stable model training in data sets not exceeding 100m cells (e.g. 1m rows by 100 cols),
 
@@ -28,7 +28,7 @@ I compared computational efficiency of the latest versions of GBDT algos - light
 
 Results were averaged over multiple models (in total over 180 thousand) trained on simulated (random) binary classification data sets.
 
-The data sets had different shapes, because computation times vary with data set shape, ranging from 10k to 10m rows and from 10 to 10k columns, excluding combinations that exceeded 100m cells (because they have proven too time- and/or memory to allow for stable model training in case of xgboost (OOM conditions for VRAM led in xgboost to frequent crashes of the entire python kernel).
+The data sets had different shapes, because computation times vary with data set shape, ranging from 10k to 10m rows and from 10 to 10k columns, excluding combinations that exceeded 100m cells (because they have proven too time-consuming for both CPU implementations and led to python kernel crashes, but only in xgboost GPU version, because lightgbm did not allocate similarly large amounts of VRAM to ever lead to OOM conditions).
 
 To ensure comparability across algos all models – binary classifiers - had default hyperparmeters (including a fast learning rate of 0.1) except for:
 - max_bin=63 (reduced to improve GPU training speeds, as per lightgbm recommendations - see [GPU Tuning Guide](https://lightgbm.readthedocs.io/en/latest/GPU-Performance.html)), 
