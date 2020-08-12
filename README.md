@@ -26,7 +26,7 @@ I compared computational efficiency of the latest versions of GBDT algos - light
 
 ### Methodology
 
-Results were averaged over multiple models (in total around 56 thousand) trained on simulated (random) binary classification data sets.
+Results were averaged over multiple models (in total over 180 thousand) trained on simulated (random) binary classification data sets.
 
 The data sets had different shapes, because computation times vary with data set shape, ranging from 10k to 10m rows and from 10 to 10k columns, excluding combinations that exceeded 100m cells (because they have proven too time- and/or memory to allow for stable model training in case of xgboost (OOM conditions for VRAM led in xgboost to frequent crashes of the entire python kernel).
 
