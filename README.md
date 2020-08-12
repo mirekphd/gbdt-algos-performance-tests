@@ -14,6 +14,8 @@ I compared computational efficiency of the latest versions of GBDT algos - light
 
 - using GPU in case of lightgbm currently does not improve performance if one has access to a CPU with at least 8 threads, which would on its own provide better performance regardless of data shape (note that combining GPU with multi-threaded CPU computations will obscure this issue),
 
+- version 3.0 (RC1) of lightgbm is faster than either version 2.3 or 2.2, especially for very "tall" data shapes (with as least 100k times more rows than columns), where there is a 2x speed improvement over previous versions (when using at least 8 CPU threads),
+
 - using GPU in case of xgboost is essential, because it is substantially slower in the CPU than lightgbm and scales poorly with more threads (in fact the value added from increasing the number of threads above 16 is negative),
 
 - the optimal number of CPU threads for xgboost is also 8-16, but one should avoid using this algo in the CPU (in GPU it is significantly faster - one of the largest performance benefits observed in this study),
@@ -26,7 +28,7 @@ I compared computational efficiency of the latest versions of GBDT algos - light
 
 Results were averaged over multiple models (in total around 56 thousand) trained on simulated (random) binary classification data sets.
 
-The data sets had different shapes, because computational times varies with data set shape, ranging from 10k to 10m rows and from 10 to 10k columns, excluding combinations that exceeded 100m cells (because they have proven too time- and/or memory to allow for stable model training in case of xgboost (OOM conditions for VRAM led in xgboost to frequent crashes of the entire python kernel).
+The data sets had different shapes, because computation times vary with data set shape, ranging from 10k to 10m rows and from 10 to 10k columns, excluding combinations that exceeded 100m cells (because they have proven too time- and/or memory to allow for stable model training in case of xgboost (OOM conditions for VRAM led in xgboost to frequent crashes of the entire python kernel).
 
 To ensure comparability across algos all models – binary classifiers - had default hyperparmeters (including a fast learning rate of 0.1) except for:
 - max_bin=63 (reduced to improve GPU training speeds, as per lightgbm recommendations - see [GPU Tuning Guide](https://lightgbm.readthedocs.io/en/latest/GPU-Performance.html)), 
@@ -39,4 +41,4 @@ I did not compare the more realistic scenario of combined use of multi-threading
 The comparisons of model training times are only justified within the same data shape (not just the total number of cells), because training times differ significantly between different shapes (cf. the negative impact of increasing the number of columns).
 
 ### Hardware and software
-The hardware and software used for these tests are specified independently within each dated subfolder with results.
+The hardware and software used for these tests are specified independently within each versioned subfolder with test results.
